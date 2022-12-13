@@ -6,20 +6,17 @@ import Modal from 'components/Modal/Modal';
 
 class ImageGalleryItem extends Component {
   state = {
-    modalShow: false,
     url: '',
   };
 
   handleOpenModal = url => {
     this.setState({
-      modalShow: !this.state.modalShow,
       url: url,
     });
   };
 
   handleCloseModal = () => {
     this.setState({
-      modalShow: false,
       url: '',
     });
   };
@@ -35,7 +32,7 @@ class ImageGalleryItem extends Component {
         >
           <img src={webformatURL} alt="images" width="300" />
         </li>
-        {this.state.modalShow && (
+        {this.state.url !== '' && (
           <Modal
             url={this.state.url}
             handleCloseModal={this.handleCloseModal}

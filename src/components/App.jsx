@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { SpinnerCircular } from 'spinners-react';
+import Notiflix from 'notiflix';
 
 import Searchbar from './Searchbar/Searchbar';
 import ImageGallery from './ImageGallery/ImageGallery';
@@ -8,7 +9,7 @@ import Button from './Button/Button';
 export class App extends Component {
   state = {
     search: '',
-    images: null,
+    images: [],
     page: 1,
     loading: false,
   };
@@ -21,6 +22,9 @@ export class App extends Component {
 
       this.getPhotos()
         .then(data => {
+          if (data.length === 0) {
+            Notiflix.Notify.failure('Images not found...');
+          }
           this.setState({
             images: [...data],
           });
@@ -87,7 +91,7 @@ export class App extends Component {
         <Searchbar submit={this.onSubmit} />
         {this.state.images && <ImageGallery images={this.state.images} />}
         {this.state.loading && <SpinnerCircular className="spiner" />}
-        {this.state.images && <Button loadMore={this.loadMore} />}
+        {this.state.images.length >= 12 && <Button loadMore={this.loadMore} />}
       </>
     );
   }
